@@ -1,0 +1,27 @@
+{
+  "name": "piotrpress/wordpress-notice",
+  "type": "library",
+  "license": "GPL-3.0",
+  "description": "This library simplifies the displaying of Notices in the WordPress dashboard.",
+  "homepage": "https://github.com/PiotrPress/wordpress-notice",
+  "authors": [
+    {
+      "name": "Piotr Niewiadomski",
+      "homepage": "https://piotr.press"
+    }
+  ],
+  "keywords": [
+    "wordpress", "wp", "notice", "notoces", "dashboard", "wp-admin"
+  ],
+  "require": {
+    "php": ">=7.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "PiotrPress\\WordPress\\": "src/"
+    },
+    "classmap": [
+      "src"
+    ]
+  }
+}

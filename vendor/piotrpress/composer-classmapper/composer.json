@@ -1,0 +1,31 @@
+{
+  "name": "piotrpress/composer-classmapper",
+  "type": "composer-plugin",
+  "license": "MIT",
+  "description": "This Composer command generates a classmap.php file based on project files.",
+  "homepage": "https://github.com/PiotrPress/composer-classmapper",
+  "authors": [
+    {
+      "name": "Piotr Niewiadomski",
+      "homepage": "https://piotr.press"
+    }
+  ],
+  "keywords": [
+    "classmapper", "classmap", "class map", "map", "autoloader", "autoload", "composer", "composer script", "composer plugin", "composer command", "composer classmap", "composer map", "php"
+  ],
+  "require": {
+    "php": ">=7.4",
+    "composer-plugin-api": "^2.0"
+  },
+  "extra": {
+    "class": "PiotrPress\\Composer\\ClassMapper\\Plugin"
+  },
+  "autoload": {
+    "psr-4": {
+      "PiotrPress\\Composer\\ClassMapper\\": "src/"
+    },
+    "classmap": [
+      "src"
+    ]
+  }
+}
