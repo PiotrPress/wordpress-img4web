@@ -42,6 +42,7 @@ if( ! \class_exists( __NAMESPACE__ . '\Image' ) ) {
             switch( true ) {
                 case \is_wp_error( $response ) : @\unlink( $file ); throw new \RuntimeException( $response->get_error_message() );
                 case 200 !== \wp_remote_retrieve_response_code( $response ) : @\unlink( $file ); throw new \RuntimeException( \wp_remote_retrieve_response_message( $response ) );
+                case 200 === \wp_remote_retrieve_response_code( $response ) && 0 === @\filesize( $file ) : @\unlink( $file ); throw new \RuntimeException( 'Empty response' );
                 default : return true;
             }
         }
