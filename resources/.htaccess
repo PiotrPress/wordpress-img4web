@@ -11,10 +11,10 @@
     RewriteRule . - [L]
 
     RewriteCond %{HTTP_ACCEPT} image/avif
-    RewriteCond %{DOCUMENT_ROOT}/wp-content/converted/$1.$2.avif -f
+    RewriteCond %{DOCUMENT_ROOT}/wp-content/converted/$1.$2.avif -s
     RewriteRule (.+)\.(jpe?g|png|gif)$ /wp-content/converted/$1.$2.avif [T=image/avif,L]
 
     RewriteCond %{HTTP_ACCEPT} image/webp
-    RewriteCond %{DOCUMENT_ROOT}/wp-content/converted/$1.$2.webp -f
+    RewriteCond %{DOCUMENT_ROOT}/wp-content/converted/$1.$2.webp -s
     RewriteRule (.+)\.(jpe?g|png|gif)$ /wp-content/converted/$1.$2.webp [T=image/webp,L]
 </IfModule>
