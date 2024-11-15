@@ -1,0 +1,27 @@
+{
+  "name": "piotrpress/singleton",
+  "type": "library",
+  "license": "GPL-3.0",
+  "description": "This library is a Singleton (anti)pattern implementation using a Traits with a support for an Object Inheritance and passing parameters to the constructor.",
+  "homepage": "https://github.com/PiotrPress/singleton",
+  "authors": [
+    {
+      "name": "Piotr Niewiadomski",
+      "homepage": "https://piotr.press"
+    }
+  ],
+  "keywords": [
+    "singleton", "pattern", "antipattern", "inheritance", "object inheritance", "trait", "traits"
+  ],
+  "require": {
+    "php": ">=7.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "PiotrPress\\": "src/"
+    },
+    "classmap": [
+      "src"
+    ]
+  }
+}

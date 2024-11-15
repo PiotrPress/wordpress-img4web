@@ -2,7 +2,7 @@
 
 namespace Img4Web;
 
-use Img4Web\Vendor\PiotrPress\Singleton;
+use Img4Web\Vendors\PiotrPress\Singleton;
 
 \defined( 'ABSPATH' ) or exit;
 
@@ -95,7 +95,8 @@ if( ! \class_exists( __NAMESPACE__ . '\Command' ) ) {
 
             $results = [];
             foreach( $network ? \get_sites( [ 'fields' => 'ids' ] ) : [ \get_current_blog_id() ] as $siteId ) {
-                \switch_to_blog( $siteId );
+                if( is_multisite() ) \switch_to_blog( $siteId );
+
                 $siteUrl = \site_url( $siteId );
                 $results[ $siteUrl ] = [
                     'Site' => $siteUrl,
@@ -104,7 +105,7 @@ if( ! \class_exists( __NAMESPACE__ . '\Command' ) ) {
                     self::FAILED => 0
                 ];
 
-                foreach( $files ?: $this->getAttachments() as $file ) {
+                foreach( \apply_filters( 'img4web/files', $files ?: $this->getAttachments() ) as $file ) {
                     if( ! \file_exists( $file ) ) {
                         ! $failed ?: self::log( $file . ' - file does not exists', self::FAILED );
                         $results[ $siteUrl ][ self::FAILED ]++;
@@ -137,7 +138,8 @@ if( ! \class_exists( __NAMESPACE__ . '\Command' ) ) {
                         }
                     }
                 }
-                \restore_current_blog();
+
+                if( is_multisite() ) \restore_current_blog();
             }
 
             ! $stats ?: self::stats( $results, $network );

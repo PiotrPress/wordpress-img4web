@@ -1,0 +1,1 @@
+<?= "[$date] [$level] $message" . \PHP_EOL;

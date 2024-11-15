@@ -1,0 +1,25 @@
+{
+  "name": "piotrpress/cacher",
+  "type": "library",
+  "license": "MIT",
+  "description": "This library provides a simple file-based caching solution.",
+  "homepage": "https://github.com/PiotrPress/cacher",
+  "authors": [
+    {
+      "name": "Piotr Niewiadomski",
+      "homepage": "https://piotr.press"
+    }
+  ],
+  "keywords": [
+    "cacher", "cache"
+  ],
+  "require": {
+    "php": ">=7.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "PiotrPress\\": "src/"
+    },
+    "classmap": [ "src" ]
+  }
+}

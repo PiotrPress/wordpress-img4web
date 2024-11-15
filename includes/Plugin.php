@@ -2,27 +2,34 @@
 
 namespace Img4Web;
 
-use Img4Web\Vendor\PiotrPress\Logger;
-use Img4Web\Vendor\PiotrPress\Templater;
-use Img4Web\Vendor\PiotrPress\TemplaterInterface;
-use Img4Web\Vendor\PiotrPress\WordPress\Hooks;
-use Img4Web\Vendor\PiotrPress\WordPress\Notice;
-use Img4Web\Vendor\Psr\Log\LoggerInterface;
-use Img4Web\Vendor\Psr\Log\LogLevel;
+use Img4Web\Vendors\PiotrPress\Cacher;
+use Img4Web\Vendors\PiotrPress\CacherInterface;
+use Img4Web\Vendors\PiotrPress\Logger;
+use Img4Web\Vendors\PiotrPress\Logger\Handler\FileHandler;
+use Img4Web\Vendors\PiotrPress\Templater;
+use Img4Web\Vendors\PiotrPress\TemplaterInterface;
+use Img4Web\Vendors\PiotrPress\WordPress\Hooks;
+use Img4Web\Vendors\PiotrPress\WordPress\Notice;
+use Img4Web\Vendors\Psr\Log\LoggerInterface;
+use Img4Web\Vendors\Psr\Log\LogLevel;
 
 \defined( 'ABSPATH' ) or exit;
 
 if( ! \class_exists( __NAMESPACE__ . '\Plugin' ) ) {
-    class Plugin extends Vendor\PiotrPress\WordPress\Plugin {
+    class Plugin extends Vendors\PiotrPress\WordPress\Plugin {
         const DIR = \WP_CONTENT_DIR . '/converted';
 
+        protected CacherInterface $cacher;
         protected LoggerInterface $logger;
         protected TemplaterInterface $templater;
 
         protected function __construct( string $file ) {
             parent::__construct( $file );
 
-            $this->logger = new Logger( \sprintf('%s/logs/%s.%s.log', \WP_CONTENT_DIR, self::getSlug(), \date( 'Y-m-d' ) ) );
+            $this->cacher = new Cacher( self::getDir() . '.cache', 'development' === \wp_get_environment_type() ? 0 : -1 );
+            $this->logger = new Logger( new FileHandler(
+                \sprintf('%s/logs/%s.%s.log', \WP_CONTENT_DIR, self::getSlug(), \date( 'Y-m-d' ) )
+            ) );
             $this->templater = new Templater( self::getDir() . 'templates' );
 
             if( ! \wp_mkdir_p( self::DIR ) ) {
@@ -31,7 +38,7 @@ if( ! \class_exists( __NAMESPACE__ . '\Plugin' ) ) {
             } elseif( ! \is_writable( self::DIR ) ) {
                 $this->log( $message = 'The directory is not writable: ' . self::DIR );
                 new Notice( $message, Notice::ERROR );
-            } else Hooks::add( $this );
+            } else self::hook( $this );
         }
 
         public function log( string $message, $level = LogLevel::ERROR ) : bool {
@@ -46,6 +53,10 @@ if( ! \class_exists( __NAMESPACE__ . '\Plugin' ) ) {
 
         public function render( string $template, array $context = [] ) : string {
             return $this->templater->render( $template, $context );
+        }
+
+        static public function hook( object $object = null, string $callback = '' ) : void {
+            Hooks::add( $object, $callback, self::getInstance()->cacher );
         }
 
         public function activation() : void {}
