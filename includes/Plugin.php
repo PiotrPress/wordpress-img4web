@@ -32,13 +32,9 @@ if( ! \class_exists( __NAMESPACE__ . '\Plugin' ) ) {
             ) );
             $this->templater = new Templater( self::getDir() . 'templates' );
 
-            if( ! \wp_mkdir_p( self::DIR ) ) {
-                $this->log( $message = 'Could not create the directory: ' . self::DIR );
-                new Notice( $message, Notice::ERROR );
-            } elseif( ! \is_writable( self::DIR ) ) {
-                $this->log( $message = 'The directory is not writable: ' . self::DIR );
-                new Notice( $message, Notice::ERROR );
-            } else self::hook( $this );
+            if( ! \wp_mkdir_p( self::DIR ) ) new Notice( 'Could not create the directory: ' . self::DIR, Notice::ERROR );
+            elseif( ! \is_writable( self::DIR ) ) new Notice( 'The directory is not writable: ' . self::DIR, Notice::ERROR );
+            else self::hook( $this );
         }
 
         public function log( string $message, $level = LogLevel::ERROR ) : bool {

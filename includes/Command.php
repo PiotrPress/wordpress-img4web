@@ -94,8 +94,8 @@ if( ! \class_exists( __NAMESPACE__ . '\Command' ) ) {
             $dryRun = $args[ 'dry-run' ] ?? false;
 
             $results = [];
-            foreach( $network ? \get_sites( [ 'fields' => 'ids' ] ) : [ \get_current_blog_id() ] as $siteId ) {
-                if( is_multisite() ) \switch_to_blog( $siteId );
+            foreach( ( \is_multisite() && $network ) ? \get_sites( [ 'fields' => 'ids' ] ) : [ \get_current_blog_id() ] as $siteId ) {
+                if( \is_multisite() ) \switch_to_blog( $siteId );
 
                 $siteUrl = \site_url( $siteId );
                 $results[ $siteUrl ] = [
@@ -139,7 +139,7 @@ if( ! \class_exists( __NAMESPACE__ . '\Command' ) ) {
                     }
                 }
 
-                if( is_multisite() ) \restore_current_blog();
+                if( \is_multisite() ) \restore_current_blog();
             }
 
             ! $stats ?: self::stats( $results, $network );
