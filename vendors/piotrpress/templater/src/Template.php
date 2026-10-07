@@ -23,7 +23,7 @@ class Template {
             return ! (bool)\ini_get( 'display_errors' );
         } ) ) return '';
 
-        \set_error_handler( function ( int $level, string $message, string $file = '', int $line = null ) {
+        \set_error_handler( function ( int $level, string $message, string $file = '', ?int $line = null ) {
             throw new \ErrorException( $message, 0, $level, $file, $line );
         }, \error_reporting() );
 

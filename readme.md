@@ -35,6 +35,19 @@ Example of a cron job that converts all images to `WEBP` and `AVIF` formats ever
 
 PHP >= `7.4` version.
 
+## Development
+
+```shell
+docker compose up -d
+docker compose exec php bash
+COMPOSER='composer.dev.json' composer update
+rm composer.dev.lock
+rm vendor/autoload.php
+rm -r vendor/composer
+rm -r vendors
+mv vendor vendors
+```
+
 ## License
 
 [GPL v3 or later](license.txt)

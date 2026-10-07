@@ -32,7 +32,7 @@ class Cacher implements CacherInterface {
         }
     }
 
-    public function clear( string $key = null ) : bool {
+    public function clear( ?string $key = null ) : bool {
         if( $key ) unset( $this->data[ $key ] );
         else $this->data = [];
 
